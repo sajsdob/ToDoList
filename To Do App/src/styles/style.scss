@@ -72,7 +72,17 @@ button {
   background-color: white;
   color: green;
 }
+@keyframes slidein {
+  0%{
+    width: 0%;
+  }
+  100%{
+    width: 100%;
+  }
+}
 li {
+  animation: slidein 0.6s;
+  animation-fill-mode: forwards;
   position: relative;
   line-height: 50px;
   font-size: 25px;
