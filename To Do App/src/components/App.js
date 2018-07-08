@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import SimpleStorage from "react-simple-storage";
 
 
 class App extends Component {
@@ -10,7 +10,8 @@ constructor(props){
     items: [],
     userinput:'',
     time: setInterval(() => this.setState({ time: new Date().toLocaleTimeString() }), 1000),
-    done:[]
+    done:[],
+    temperature: 0
   }
   this.delete = this.delete.bind(this);
 }
@@ -38,17 +39,19 @@ addtolist=(input)=>{
 }
 
 delete=(indexp)=>{
-var newarray = this.state.items.filter((item, index)=> index !== indexp);
-this.setState({
-  items: newarray
-})
-}
+  var newarray = this.state.items.filter((item, index)=> index !== indexp);
+  this.setState({
+    items: newarray
+    })
+  }
+
 deletedone=(indexp)=>{
-var newarray = this.state.done.filter((item, index)=> index !== indexp);
-this.setState({
-  done: newarray
-})
-}
+  var newarray = this.state.done.filter((item, index)=> index !== indexp);
+  this.setState({
+    done: newarray
+  })
+  }
+
 addToDone=(e)=>{
   var donelist = this.state.done;
   donelist.push(e)
@@ -56,16 +59,19 @@ addToDone=(e)=>{
      done: donelist
    })
 }
+
 handleKeyPress = (event, ) => {
   if(event.key == 'Enter'){
     this.addtolist(this.state.userinput);
   }
+  localStorage.setItem('items', this.state.items);
 }
-
 
 
   render(){
     return(
+      <div id='app'>
+    <SimpleStorage parent={this} />
       <div className='container'>
         <h1>{this.state.time}</h1>
         <div className = 'userinput'>
@@ -80,8 +86,8 @@ handleKeyPress = (event, ) => {
           <h1 className = 'done'>DONE</h1>
           {this.state.done.map((item, index)=><li onClick={(e)=>this.deletedone(index)}  key={index}>{item}    <span>✔</span></li>)}
         </ul>
-        
       </div>
+    </div>
     )
   }
 }
