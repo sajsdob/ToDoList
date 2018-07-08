@@ -81,13 +81,26 @@ button {
 @keyframes slidein {
   0%{
     width: 0%;
+    opacity: 0;
   }
   100%{
     width: 100%;
+    opacity: 1;
+  }
+}
+@keyframes opacity {
+  0%{
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  100%{
+     opacity: 1;
   }
 }
 li {
-  animation: slidein 0.6s;
+  animation: slidein 0.2s;
   animation-fill-mode: forwards;
   position: relative;
   line-height: 50px;
@@ -105,4 +118,9 @@ li {
     border-color: tomato;
     cursor:  pointer;
   }
+  span, button {
+    animation: opacity 0.5s;
+    animation-fill-mode: forwards;
+  }
+
 }
