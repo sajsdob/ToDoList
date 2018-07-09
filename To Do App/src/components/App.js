@@ -51,9 +51,6 @@ deletedone=(indexp)=>{
     this.setState({
       done: newarray
     });
-    if (this.state.done.length===1) {
-      alert("Good job!", "You clicked the button!", "success");
-    }
   }
 
 addToDone=(e)=>{
@@ -61,14 +58,16 @@ addToDone=(e)=>{
   donelist.push(e)
    this.setState({
      done: donelist
-   })
+   });
+   if (this.state.items.length===1) {
+     alert("Good job!", "You clicked the button!", "success");
+   }
 }
 
 handleKeyPress = (event, ) => {
   if(event.key == 'Enter'){
     this.addtolist(this.state.userinput);
   }
-  localStorage.setItem('items', this.state.items);
 }
 
 
