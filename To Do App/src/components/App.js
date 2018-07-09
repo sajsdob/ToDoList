@@ -38,6 +38,7 @@ addtolist=(input)=>{
  }
 }
 
+
 delete=(indexp)=>{
   var newarray = this.state.items.filter((item, index)=> index !== indexp);
   this.setState({
@@ -46,10 +47,13 @@ delete=(indexp)=>{
   }
 
 deletedone=(indexp)=>{
-  var newarray = this.state.done.filter((item, index)=> index !== indexp);
-  this.setState({
-    done: newarray
-  })
+    var newarray = this.state.done.filter((item, index)=> index !== indexp);
+    this.setState({
+      done: newarray
+    });
+    if (this.state.done.length===1) {
+      alert("Good job!", "You clicked the button!", "success");
+    }
   }
 
 addToDone=(e)=>{
@@ -80,7 +84,7 @@ handleKeyPress = (event, ) => {
         </div>
         <ul>
           <h1 className = 'todo'>TO DO</h1>
-          {this.state.items.map((item, index)=><li onClick={(e)=>this.delete(index)} key={index}>{item}<button className='left'  onClick={(e)=>this.addToDone(item)}>✔</button> </li>)}
+          {this.state.items.map((item, index)=><li onClick={(e)=>this.delete(index)} key={index}>{item}<button className='left'  onClick={(e)=>this.addToDone(item)}>DONE</button> </li>)}
         </ul>
         <ul>
           <h1 className = 'done'>DONE</h1>
