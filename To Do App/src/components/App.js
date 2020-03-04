@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import SimpleStorage from "react-simple-storage";
+import Header from './header.js';
+import Todo from './todo.js';
+import Done from './done.js';
+import Searchmovie from './searchmovies.js';
 
 
 class App extends Component {
@@ -9,35 +13,45 @@ constructor(props){
   this.state={
     items: [],
     userinput:'',
-    time: setInterval(() => this.setState({ time: new Date().toLocaleTimeString() }), 1000),
     done:[],
-    temperature: 0
+    themeClass: ''
   }
-  this.delete = this.delete.bind(this);
 }
 
 //METHODS
+
 changinginput=(input)=>{
   this.setState({
     userinput: input
   })
 };
 
+changeTheme = () => {
+  if (this.state.themeClass == 'light') {
+     this.setState({
+       themeClass: 'dark'
+     })
+  }
+  else {
+    this.setState({
+      themeClass: 'light'
+    })
+  }
+}
+
 addtolist=(input)=>{
   if (this.state.userinput === '') {
     alert('empty input')
   }
   else{
-  var newitems = this.state.items;
-  newitems.push(input);
-
-  this.setState({
-    items: newitems,
-    userinput: ''
+    var newitems = this.state.items;
+    newitems.push(input);
+    this.setState({
+      items: newitems,
+      userinput: ''
   })
  }
 }
-
 
 delete=(indexp)=>{
   var newarray = this.state.items.filter((item, index)=> index !== indexp);
@@ -56,7 +70,7 @@ deletedone=(indexp)=>{
 addToDone=(e)=>{
   var donelist = this.state.done;
   donelist.push(e)
-   this.setState({
+  this.setState({
      done: donelist
    });
    if (this.state.items.length===1) {
@@ -73,22 +87,19 @@ handleKeyPress = (event, ) => {
 
   render(){
     return(
-      <div id='app'>
+      <div id='app' className = {this.state.themeClass}>
     <SimpleStorage parent={this} />
       <div className='container'>
-        <h1>{this.state.time}</h1>
-        <div className = 'userinput'>
-          <input  onKeyPress={this.handleKeyPress} placeholder='ENTER TASK' onChange={(e)=>this.changinginput(e.target.value)} value={this.state.userinput} type='text'></input>
-          <div className = 'addbutton' onClick={()=>this.addtolist(this.state.userinput)}>ADD</div>
-        </div>
-        <ul>
-          <h1 className = 'todo'>TO DO</h1>
-          {this.state.items.map((item, index)=><li onClick={(e)=>this.delete(index)} key={index}>{item}<button className='left'  onClick={(e)=>this.addToDone(item)}>DONE</button> </li>)}
-        </ul>
-        <ul>
-          <h1 className = 'done'>DONE</h1>
-          {this.state.done.map((item, index)=><li onClick={(e)=>this.deletedone(index)}  key={index}>{item}    <span>✔</span></li>)}
-        </ul>
+          <Header changeTheme = {this.changeTheme}
+                  handleKeyPress = {this.handleKeyPress}
+                  addtolist = {this.addtolist}
+                  changinginput = {this.changinginput}
+                  userinput = {this.state.userinput}/>
+          <Todo   items = {this.state.items}
+                  deleted = {this.delete}
+                  addToDone = {this.addToDone}/>
+          <Done  deletedone = {this.deletedone}
+                 done = {this.state.done}/>
       </div>
     </div>
     )
